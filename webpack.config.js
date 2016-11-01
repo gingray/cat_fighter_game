@@ -1,7 +1,7 @@
 var path = require('path')
 module.exports = {
   entry: {
-    app: ['./app/main.js']
+    app: ['./app/main_pixijs.js']
   },
 
   output: {
