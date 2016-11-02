@@ -1,16 +1,17 @@
-import {Sprite, loader} from 'pixi.js'
-import Resource from '../helpers/resource'
-
+import {Sprite, loader, utils, Rectangle, extras, Texture} from 'pixi.js'
+import Resource from '../base/resource'
+import AnimationResource from '../base/animationResource'
 const spriteFilename = "images/cat_fighter.png"
+const rect = new Rectangle(0, 0, 50, 50);
 Resource.addSprite(spriteFilename);
-class CatFighter extends Resource {
+
+class CatFighter extends AnimationResource {
   constructor() {
-    super(spriteFilename);
-    this.sprite = new Sprite(loader.resources[this.spriteFilename].texture);
+    super(spriteFilename, rect, 4);
   }
 
-  draw(stage) {
-    stage.addChild(this.sprite);
+  state() {
+    // this.anim.x += 1;
   }
 }
 
