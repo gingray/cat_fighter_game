@@ -14,6 +14,7 @@ renderer.backgroundColor = 0xececec;
 renderer.view.style.position = 'absolute';
 renderer.view.style.display = 'block';
 renderer.resize(window.innerWidth,window.innerHeight);
+let gameObjects = null;
 
 export default class {
   constructor() {
@@ -23,26 +24,33 @@ export default class {
           .load(this.loadGame.bind(this));
   }
 
-  loadGame() {
-    console.log('resources loaded');
-    let catFighter = new CatFighter();
-    let brick = new Brick();
-    catFighter.addOnStage(stage);
-    brick.addOnStage(stage);
-    this.draw();
-  }
-
   resourceLoading(loader, res) {
     console.log(`loading resource ${res.name}`);
   }
 
+  loadGame() {
+    console.log('resources loaded');
+    this.createScene();
+  }
+
+  createScene() {
+    gameObjects = []
+    gameObjects.push(new CatFighter());
+    for (let obj of gameObjects) {
+      obj.addOnStage(stage);
+    }
+    this.draw();
+  }
+
   draw() {
-    this.state();
+    this.update();
     renderer.render(stage);
     requestAnimationFrame(this.draw.bind(this));
   }
 
-  state() {
-    // this.catFighter.state();
+  update() {
+    for (let obj of gameObjects) {
+      obj.update();
+    }
   }
 }

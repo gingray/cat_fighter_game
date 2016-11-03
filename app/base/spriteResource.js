@@ -16,5 +16,8 @@ export default class extends Resource{
   addOnStage(stage) {
     stage.addChild(this.sprite);
   }
+
+  update() {
+  }
 }
 
