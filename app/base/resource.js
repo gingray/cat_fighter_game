@@ -4,6 +4,10 @@ export default class {
     this.spriteFilename = spriteFilename;
   }
 
+  processAction(action) {
+
+  }
+
   static getAllSprites() {
     return spriteArray;
   }

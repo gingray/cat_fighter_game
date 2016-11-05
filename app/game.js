@@ -1,5 +1,6 @@
 import {autoDetectRenderer, Container, loader} from 'pixi.js'
 import scaleToWindow from './helpers/scaleToWindow.js'
+import {Keyboard} from './helpers/keyboard.js'
 import {CatFighter} from './characters/catFighter'
 import {Brick} from './tiles/brick'
 import Resource from './base/resource'
@@ -15,6 +16,7 @@ renderer.view.style.position = 'absolute';
 renderer.view.style.display = 'block';
 renderer.resize(window.innerWidth,window.innerHeight);
 let gameObjects = null;
+const keyboard = new Keyboard();
 
 export default class {
   constructor() {
@@ -38,6 +40,7 @@ export default class {
     gameObjects.push(new CatFighter());
     for (let obj of gameObjects) {
       obj.addOnStage(stage);
+      keyboard.subscribe(obj);
     }
     this.draw();
   }
