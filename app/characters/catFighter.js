@@ -10,21 +10,43 @@ Resource.addSprite(spriteFilename);
 class CatFighter extends AnimationResource {
   constructor() {
     super(spriteFilename, rect, 4);
+    this.startY = this.anim.y;
   }
 
   processAction(action) {
     if (action.type == 'keyboard') {
       if (action.keyboard.keyCode == Keycode.RIGHT) {
-        this.anim.x +=5;
+        if (action.keyboard.isDown) {
+          this.anim.vx = 5;
+        } else {
+          this.anim.vx = 0;
+        }
       }
 
       if (action.keyboard.keyCode == Keycode.LEFT) {
-        this.anim.x -=5;
+        if (action.keyboard.isDown) {
+          this.anim.vx = -5;
+        } else {
+          this.anim.vx = 0;
+        }
       }
 
       if (action.keyboard.keyCode == Keycode.SPACEBAR) {
-        this.anim.y -=5;
+        if (action.keyboard.isDown) {
+          this.anim.vy = -5;
+        } else {
+          this.anim.vy = 0;
+        }
       }
+    }
+  }
+
+  update() {
+    super.update();
+    if (this.startY > this.anim.y) {
+      this.anim.y += 1.5;
+    } else {
+       this.anim.y = this.startY;
     }
   }
 

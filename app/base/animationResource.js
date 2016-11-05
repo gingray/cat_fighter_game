@@ -8,6 +8,8 @@ export default class extends Resource {
     this.frames = frames;
     this.horizontal = horizontal;
     this.createAnimation();
+    this.anim.vx = 0;
+    this.anim.vy = 0;
   }
 
   createAnimation() {
@@ -32,6 +34,9 @@ export default class extends Resource {
   addOnStage(stage) {
     stage.addChild(this.anim);
   }
+
   update() {
+    this.anim.x += this.anim.vx;
+    this.anim.y += this.anim.vy;
   }
 }
