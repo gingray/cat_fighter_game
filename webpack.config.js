@@ -1,24 +1,33 @@
-var path = require('path')
-module.exports = {
-  entry: {
-    app: ['./app/main_pixijs.js']
-  },
+const path = require('path');
 
+module.exports = {
+  mode: 'development',
+  entry: ["./app/main.ts"],
   output: {
     path: path.resolve(__dirname, 'assets'),
-    publicpath: '/',
-    filename: 'bundle.js',
+    filename: "bundle.js"
   },
-  module: {
-    loaders: [
-      {
-        test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
-        loader: 'babel', // 'babel-loader' is also a valid name to reference
-        // query: {
-          // presets: ['es2015'],
-        // }
-      }
-    ]
-  }
-}
+  devServer: {
+    hot: true,
+    static: {
+      directory: path.join(__dirname, 'assets'),
+    },
+    compress: true,
+    port: 9000,
+  },
+};
+// module.exports = {
+//   devServer: {
+//     contentBase: path.join(__dirname, 'dist'),
+//     compress: true,
+//     port: 9000
+//   },
+//   entry: {
+//     app: ['./app/main.ts']
+//   },
+//
+//   output: {
+//     path: path.resolve(__dirname, 'assets'),
+//     filename: 'bundle.js',
+//   }
+// }
