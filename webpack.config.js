@@ -15,9 +15,19 @@ module.exports = {
     compress: true,
     port: 9000,
   },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+    ],
+  },
 };
-console.log("xxx")
-console.log(path.join(__dirname, 'assets'))
 // module.exports = {
 //   devServer: {
 //     contentBase: path.join(__dirname, 'dist'),

@@ -1,6 +1,7 @@
 import {Application, Texture, Sprite} from "pixi.js";
-import {createSpriteArray} from "./utils.ts";
-import io from 'socket.io-client'
+import {createSpriteArray} from "./utils";
+import {InputManager} from "./inputManager";
+import {CatFighter} from "./gameObjects/CatFighter";
 
 const app = new Application(
     {
@@ -15,22 +16,12 @@ window.addEventListener("resize", function() {
     app.renderer.resize(window.innerWidth, window.innerHeight);
 });
 
-// const texture = Texture.from("assets/images/cat_fighter.png")
-const sprite = Sprite.from("images/cat_fighter.png")
 const animatedSprite = createSpriteArray("images/cat_fighter.png", 10, 5)
-animatedSprite.animationSpeed = 0.20
-animatedSprite.play()
+const catFighter = new CatFighter(1, animatedSprite)
 
 app.stage.addChild(animatedSprite)
 
-const newSocket = io(`http://${window.location.hostname}:8080`);
-
-console.log(["protocol", io.protocol])
-window.addEventListener("keydown", (e) => {
-    animatedSprite.x += 10;
-    newSocket.emit("test", "hello")
-})
-
-window.addEventListener("keyup", (e) => {
-
+const inputManager = new InputManager(window)
+app.ticker.add((delta) => {
+    catFighter.Update(inputManager, delta)
 })
