@@ -16,6 +16,8 @@ module.exports = {
     port: 9000,
   },
 };
+console.log("xxx")
+console.log(path.join(__dirname, 'assets'))
 // module.exports = {
 //   devServer: {
 //     contentBase: path.join(__dirname, 'dist'),

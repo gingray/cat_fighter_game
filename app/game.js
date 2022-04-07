@@ -2,7 +2,6 @@ import {autoDetectRenderer, Container, loader} from 'pixi.js'
 import scaleToWindow from './helpers/scaleToWindow.js'
 import {Keyboard} from './helpers/keyboard.js'
 import {CatFighter} from './characters/catFighter'
-import {Brick} from './tiles/brick'
 import Resource from './base/resource'
 
 window.addEventListener('resize', (evt) => {scaleToWindow(renderer.view)});
