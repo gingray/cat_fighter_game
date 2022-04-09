@@ -1,15 +1,15 @@
-import io from 'socket.io-client'
+import {GameManager} from "./gameManager";
 
 export class InputManager {
     private currentKey:string
-    private socket
+    private gameManager: GameManager
 
-    constructor(window) {
-        this.socket = io(`http://${window.location.hostname}:8080`);
+    constructor(window, gameManger: GameManager) {
+        this.gameManager = gameManger
         window.addEventListener("keydown", this.handleKeyDown.bind(this))
         window.addEventListener("keyup", this.handleKeyUp.bind(this))
 
-        this.socket.on("command", this.handleServerInput.bind(this))
+        this.gameManager.on("command", this.handleServerInput.bind(this))
 
     }
 
@@ -19,18 +19,20 @@ export class InputManager {
 
     private handleKeyUp(event:KeyboardEvent) {
         event.preventDefault()
-        this.socket.emit("command", {EntityName: "player", CommandName: null})
+        this.gameManager.emit("command", {entityId: this.gameManager.getCurrentPlayerId(), commandName: null})
     }
 
     private handleKeyDown(event:KeyboardEvent) {
         event.preventDefault()
-        this.socket.emit("command", {EntityName: "player", CommandName: event.key})
+        this.gameManager.emit("command", {entityId: this.gameManager.getCurrentPlayerId(), commandName: event.key})
     }
 
     private handleServerInput(data) {
         console.log(data)
         // this.currentKey = event.key;
-        this.currentKey = data.commandName
+        // this.currentKey = data.commandName
+        console.log({data})
+        this.gameManager.setCommand(data.entityId, data.commandName)
     }
 
 

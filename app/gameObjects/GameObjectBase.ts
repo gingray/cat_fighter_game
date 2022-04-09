@@ -1,14 +1,23 @@
 import {InputManager} from "../inputManager";
 
 export abstract class GameObjectBase {
-    private id: any
+    private _id: any
     private name:string
     private GameObjects : Array<GameObjectBase>
+    protected currentCommand: string
 
     protected constructor(id: any, name:string) {
-        this.id = id;
+        this._id = id;
         this.name = name;
         this.GameObjects = new Array<GameObjectBase>()
+    }
+
+    public id(): any {
+        return this._id;
+    }
+
+    public setCurrentCommand(command: string) {
+        this.currentCommand = command;
     }
 
     public Update(inputManager: InputManager, delta: number) {

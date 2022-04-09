@@ -1,7 +1,8 @@
 import {Application, Texture, Sprite} from "pixi.js";
 import {createSpriteArray} from "./utils";
 import {InputManager} from "./inputManager";
-import {CatFighter} from "./gameObjects/CatFighter";
+import {Player} from "./gameObjects/Player";
+import {GameManager} from "./gameManager";
 
 const app = new Application(
     {
@@ -16,12 +17,10 @@ window.addEventListener("resize", function() {
     app.renderer.resize(window.innerWidth, window.innerHeight);
 });
 
-const animatedSprite = createSpriteArray("images/cat_fighter.png", 10, 5)
-const catFighter = new CatFighter(1, animatedSprite)
-
-app.stage.addChild(animatedSprite)
-
-const inputManager = new InputManager(window)
+const gameManager = new GameManager(app)
+const inputManager = new InputManager(window, gameManager)
 app.ticker.add((delta) => {
-    catFighter.Update(inputManager, delta)
+    for (const gameObject of gameManager.getWorld()) {
+        gameObject.Update(inputManager, delta)
+    }
 })
