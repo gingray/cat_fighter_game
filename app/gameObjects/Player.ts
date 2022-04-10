@@ -13,9 +13,9 @@ export class Player extends GameObjectBase {
         this.animatedSprite.animationSpeed = 0.20
     }
 
-    public static createCatFighter() {
+    public static createCatFighter(id: string = uuidv4()) {
         const animatedSprite = createSpriteArray("images/cat_fighter.png", 10, 5)
-        return new Player(uuidv4(), animatedSprite)
+        return new Player(id, animatedSprite)
     }
 
     public getSprite() {
@@ -27,19 +27,19 @@ export class Player extends GameObjectBase {
         this.animatedSprite.y = y
     }
 
+    public getPosition() {
+        return { X: this.animatedSprite.x, Y: this.animatedSprite.y }
+    }
+
     public ProcessUpdate(inputManger: InputManager, delta: number) {
         const key = this.currentCommand;
         if (key == "ArrowLeft") {
             this.animatedSprite.x -= Math.floor(this.speed * delta)
-            console.log("sprite x move left", this.animatedSprite.x)
-
             this.animatedSprite.play()
         }
 
         if (key == "ArrowRight") {
-            console.log("im here")
             this.animatedSprite.x += Math.floor(this.speed * delta)
-            console.log("sprite x move right", this.animatedSprite.x)
             this.animatedSprite.play()
         }
 

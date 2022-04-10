@@ -31,16 +31,25 @@ export class GameManager {
         return this.gameObjects
     }
 
-    public getCurrentPlayerId() {
-        return this.player.id();
+    public getCurrentPlayer() {
+        return this.player;
     }
 
-    public setCommand(entityId:string, command:string) {
-        const result = this.gameObjects.filter((item) => item.id() == entityId)
-        console.log("result", result, command)
-        result.forEach((item) => {
-            console.log({command})
-            item.setCurrentCommand(command)
+    public setCommands(gameObjects) {
+        console.log(gameObjects, this.gameObjects)
+        gameObjects.forEach((gameObject) => {
+            const result = this.gameObjects.find((item) => item.id() == gameObject.id ) as Player
+            if (result) {
+                result.setCurrentCommand(gameObject.command)
+                if (this.player.id() != gameObject.id) {
+                    result.setPosition(gameObject.position.X, gameObject.position.Y)
+                }
+            }else{
+                const newGameObject = Player.createCatFighter(gameObject.id)
+                newGameObject.setPosition(gameObject.position.X, gameObject.position.Y)
+                this.app.stage.addChild(newGameObject.getSprite())
+                this.gameObjects.push(newGameObject)
+            }
         })
     }
 
@@ -49,9 +58,10 @@ export class GameManager {
         data["gameManager"].forEach((data) => {
             if (data.entityName == "Player")  {
 
-                let player = this.gameObjects.filter((item) => item.id() == data.id)[0] as Player
-                if (!player) {
-                    player = Player.createCatFighter();
+                let player = this.gameObjects.find((item) => item.id() == data.id) as Player
+                if (player == null) {
+                    console.log({player, localGameObjects: this.gameObjects, data})
+                    player = Player.createCatFighter(data.id);
                 }
                 player.setPosition(data.position.X, data.position.Y)
                 this.app.stage.addChild(player.getSprite())

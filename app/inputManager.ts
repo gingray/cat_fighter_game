@@ -13,26 +13,22 @@ export class InputManager {
 
     }
 
-    public getCurrentKey() {
-        return this.currentKey;
-    }
-
     private handleKeyUp(event:KeyboardEvent) {
         event.preventDefault()
-        this.gameManager.emit("command", {entityId: this.gameManager.getCurrentPlayerId(), commandName: null})
+        const player = this.gameManager.getCurrentPlayer();
+        this.gameManager.emit("command", {entityId: player.id(), commandName: null, position: player.getPosition()})
     }
 
     private handleKeyDown(event:KeyboardEvent) {
         event.preventDefault()
-        this.gameManager.emit("command", {entityId: this.gameManager.getCurrentPlayerId(), commandName: event.key})
+        const player = this.gameManager.getCurrentPlayer();
+        const payload = {entityId: player.id(), commandName: event.key, position: player.getPosition()}
+        this.gameManager.emit("command", payload)
     }
 
     private handleServerInput(data) {
-        console.log(data)
-        // this.currentKey = event.key;
-        // this.currentKey = data.commandName
-        console.log({data})
-        this.gameManager.setCommand(data.entityId, data.commandName)
+        console.log("data came", data)
+        this.gameManager.setCommands(data["gameManager"])
     }
 
 
