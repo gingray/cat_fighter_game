@@ -16,19 +16,19 @@ export class InputManager {
     private handleKeyUp(event:KeyboardEvent) {
         event.preventDefault()
         const player = this.gameManager.getCurrentPlayer();
-        this.gameManager.emit("command", {entityId: player.id(), commandName: null, position: player.getPosition()})
+        this.gameManager.emit("command", {clientId: player.id(), entityId: player.id(), eventName: 'move', payload: {commandName: null} })
     }
 
     private handleKeyDown(event:KeyboardEvent) {
         event.preventDefault()
         const player = this.gameManager.getCurrentPlayer();
-        const payload = {entityId: player.id(), commandName: event.key, position: player.getPosition()}
+        const payload = {clientId: player.id(), entityId: player.id(), eventName: 'move', payload: {commandName: event.key} }
+        console.log("keydown payload", payload)
         this.gameManager.emit("command", payload)
     }
 
     private handleServerInput(data) {
-        console.log("data came", data)
-        this.gameManager.setCommands(data["gameManager"])
+        this.gameManager.setCommands(data["gameRoom"])
     }
 
 

@@ -15,8 +15,10 @@ export class GameManager {
         this.gameObjects = new Array<GameObjectBase>()
         this.player = Player.createCatFighter()
         this.gameObjects.push(this.player)
-        this.socket.emit("join", {playerId: this.player.id()})
-        this.socket.on("join", this.handleJoin.bind(this))
+        this.app.stage.addChild(this.player.getSprite())
+
+        console.log("clientId", this.player.id())
+        this.socket.emit("command", {entityId: this.player.id(), clientId: this.player.id(), eventName: 'join', payload: {roomName: 'default'}})
     }
 
     public emit(eventName: string, object:any) {
@@ -40,10 +42,12 @@ export class GameManager {
         gameObjects.forEach((gameObject) => {
             const result = this.gameObjects.find((item) => item.id() == gameObject.id ) as Player
             if (result) {
-                result.setCurrentCommand(gameObject.command)
-                if (this.player.id() != gameObject.id) {
-                    result.setPosition(gameObject.position.X, gameObject.position.Y)
-                }
+                // result.setCurrentCommand(gameObject.command)
+                result.setPosition(gameObject.position.X, gameObject.position.Y)
+
+                // if (this.player.id() != gameObject.id) {
+                //     result.setPosition(gameObject.position.X, gameObject.position.Y)
+                // }
             }else{
                 const newGameObject = Player.createCatFighter(gameObject.id)
                 newGameObject.setPosition(gameObject.position.X, gameObject.position.Y)
@@ -52,23 +56,4 @@ export class GameManager {
             }
         })
     }
-
-    private handleJoin(data) {
-        console.log(["join event", data])
-        data["gameManager"].forEach((data) => {
-            if (data.entityName == "Player")  {
-
-                let player = this.gameObjects.find((item) => item.id() == data.id) as Player
-                if (player == null) {
-                    console.log({player, localGameObjects: this.gameObjects, data})
-                    player = Player.createCatFighter(data.id);
-                }
-                player.setPosition(data.position.X, data.position.Y)
-                this.app.stage.addChild(player.getSprite())
-                this.gameObjects.push(player)
-            }
-
-        })
-    }
-
 }
