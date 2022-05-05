@@ -27,6 +27,10 @@ export class Player extends GameObjectBase {
         this.animatedSprite.y = y
     }
 
+    setRotation(angle) {
+        this.animatedSprite.angle = angle
+    }
+
     public getPosition() {
         return { X: this.animatedSprite.x, Y: this.animatedSprite.y }
     }

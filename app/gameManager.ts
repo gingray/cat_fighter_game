@@ -18,7 +18,7 @@ export class GameManager {
         this.app.stage.addChild(this.player.getSprite())
 
         console.log("clientId", this.player.id())
-        this.socket.emit("command", {entityId: this.player.id(), clientId: this.player.id(), eventName: 'join', payload: {roomName: 'default'}})
+        this.socket.emit("command", {entityId: this.player.id(), clientId: this.player.id(), eventName: 'join', "@type": "Join", payload: {roomName: 'default'}})
     }
 
     public emit(eventName: string, object:any) {
@@ -44,6 +44,7 @@ export class GameManager {
             if (result) {
                 // result.setCurrentCommand(gameObject.command)
                 result.setPosition(gameObject.position.X, gameObject.position.Y)
+                result.setRotation(gameObject.rotationAngle);
 
                 // if (this.player.id() != gameObject.id) {
                 //     result.setPosition(gameObject.position.X, gameObject.position.Y)

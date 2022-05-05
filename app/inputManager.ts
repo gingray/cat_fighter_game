@@ -16,14 +16,16 @@ export class InputManager {
     private handleKeyUp(event:KeyboardEvent) {
         event.preventDefault()
         const player = this.gameManager.getCurrentPlayer();
-        this.gameManager.emit("command", {clientId: player.id(), entityId: player.id(), eventName: 'move', payload: {commandName: null} })
+        player.getSprite().stop()
+        this.gameManager.emit("command", {clientId: player.id(), "@type": "UserInput", entityId: player.id(), eventName: 'user_input', payload: { input: {[event.key]: "Unpressed"}} })
     }
 
     private handleKeyDown(event:KeyboardEvent) {
         event.preventDefault()
         const player = this.gameManager.getCurrentPlayer();
-        const payload = {clientId: player.id(), entityId: player.id(), eventName: 'move', payload: {commandName: event.key} }
+        const payload = {clientId: player.id(), "@type": "UserInput", entityId: player.id(), eventName: 'user_input', payload: {input: {[event.key]: "Pressed"}} }
         console.log("keydown payload", payload)
+        player.getSprite().play()
         this.gameManager.emit("command", payload)
     }
 
